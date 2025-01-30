@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "993200431727",
+    "project_id": "personaltracker-2e651",
+    "storage_bucket": "personaltracker-2e651.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:993200431727:android:313d5775d447fedceea39a",
+        "android_client_info": {
+          "package_name": "doroteatomic.personal_tracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdxtnwuDyF452Gv7VuDzH07IBvStDvoBY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
