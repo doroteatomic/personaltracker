@@ -46,8 +46,17 @@ fun MoodScreen(navController: NavController) {
     }
 
     fun deleteMood(mood: Mood) {
-        moods = moods.filterNot { it == mood }
-    }
+    val db = FirebaseFirestore.getInstance() 
+
+    db.collection("moods").document(mood.id).delete()
+        .addOnSuccessListener {
+            moods = moods.filterNot { it == mood }
+        }
+        .addOnFailureListener { exception ->
+            Log.e("DeleteMood", "Greška prilikom brisanja: ", exception)
+        }
+}
+
 
     if (isLoading) {
         CircularProgressIndicator(modifier = Modifier.fillMaxSize())
