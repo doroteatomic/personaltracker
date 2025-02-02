@@ -48,8 +48,16 @@ fun HabitsScreen(navController: NavController) {
         }
     }
 
-    fun deleteHabit(habit: Habit) {
-        habits = habits.filterNot { it == habit }
+   fun deleteHabit(habit: Habit) {
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("habits").document(habit.name).delete()
+            .addOnSuccessListener {
+                habits = habits.filterNot { it == habit }
+            }
+            .addOnFailureListener { exception ->
+                Log.e("DeleteHabit", "Greška prilikom brisanja: ", exception)
+            }
     }
 
     if (isLoading) {
