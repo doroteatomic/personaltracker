@@ -48,15 +48,28 @@ fun HabitsScreen(navController: NavController) {
         }
     }
 
-   fun deleteHabit(habit: Habit) {
-        val db = FirebaseFirestore.getInstance()
+   fun deleteHabit(habitName: String) {
+        val db = FirebaseFirestore.getInstance() 
 
-        db.collection("habits").document(habit.name).delete()
-            .addOnSuccessListener {
-                habits = habits.filterNot { it == habit }
+        db.collection("habits")
+            .whereEqualTo("name", habitName) 
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val habitDocument = documents.documents.first() 
+                    habitDocument.reference.delete()
+                        .addOnSuccessListener {
+                            habits = habits.filterNot { it.name == habitName }
+                        }
+                        .addOnFailureListener { exception ->
+                            Log.e("DeleteHabit", "Error deleting habit: ", exception)
+                        }
+                } else {
+                    Log.e("DeleteHabit", "No habit found with the name: $habitName")
+                }
             }
             .addOnFailureListener { exception ->
-                Log.e("DeleteHabit", "Greška prilikom brisanja: ", exception)
+                Log.e("DeleteHabit", "Error finding habit: ", exception)
             }
     }
 
@@ -131,7 +144,7 @@ fun HabitsScreen(navController: NavController) {
             ) {
                 items(sortedHabits) { habit ->
                     HabitCard(habit = habit, onDelete = { habitToDelete ->
-                        deleteHabit(habitToDelete)
+                        deleteHabit(habitToDelete.name)
                     })
                 }
             }
