@@ -159,7 +159,6 @@ fun AddHabitScreen(onSave: (Habit, List<String>) -> Unit, navController: NavCont
             onClick = {
                 val goalsList = goalsText.split(",").map { it.trim() } // Split goals by commas
                 val habit = Habit(
-                    id = "",
                     name = habitName,
                     color = habitColor.toArgb(),
                     goals = goalsList
@@ -186,7 +185,7 @@ fun SaveHabit(habit: Habit) {
     val db = FirebaseFirestore.getInstance()
 
 
-    if (habit.id.isEmpty()) {
+    if (habit.name.isEmpty()) {
         db.collection("habits")
             .add(habit)
             .addOnSuccessListener {
@@ -197,7 +196,7 @@ fun SaveHabit(habit: Habit) {
             }
     } else {
         db.collection("habits")
-            .document(habit.id)
+            .document(habit.name)
             .set(habit)
             .addOnSuccessListener {
                 Log.d("Firestore", "Habit updated successfully!")
