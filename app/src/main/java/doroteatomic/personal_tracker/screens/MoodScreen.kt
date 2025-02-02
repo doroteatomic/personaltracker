@@ -48,7 +48,7 @@ fun MoodScreen(navController: NavController) {
     fun deleteMood(mood: Mood) {
     val db = FirebaseFirestore.getInstance() 
 
-    db.collection("moods").document(mood.id).delete()
+    db.collection("moods").document(mood.date).delete()
         .addOnSuccessListener {
             moods = moods.filterNot { it == mood }
         }
